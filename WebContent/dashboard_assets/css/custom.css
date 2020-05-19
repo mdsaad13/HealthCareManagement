@@ -1,0 +1,28 @@
+.bg-dark{
+	background-image: -moz-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+    background-image: -webkit-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%) !important;
+    background-image: -ms-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+}
+
+.sb-topnav.navbar-dark #sidebarToggle {
+    color: rgb(255, 255, 255) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgb(255, 255, 255);
+}
+
+#layoutAuthentication{
+	min-height: 100vh;
+    justify-content: center;
+    display: flex;
+}
+
+.bg-primary {
+    background-image: -webkit-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+}
+
+.btn-primary {
+    border-color: unset;
+    background-image: -webkit-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+}
