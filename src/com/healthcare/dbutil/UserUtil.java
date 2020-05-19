@@ -62,4 +62,44 @@ public class UserUtil extends Config {
         return result;
     }
 
+    public boolean InsertConsulting(Consulting obj) throws SQLException {
+        boolean result = false;
+        Connect();
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO consulting (doc_id, user_id, subject, description, datetime) values (?, ?, ?, ?, ?)");
+            ps.setInt(1, obj.getDocID());
+            ps.setInt(2, obj.getUserID());
+            ps.setString(3, obj.getSubject());
+            ps.setString(4, obj.getDescription());
+            ps.setString(5, obj.getDateTime());
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                result = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DisConnect();
+        return result;
+    }
+
+    public void DeleteConsulting(int ID) throws SQLException {
+        PreparedStatement pstmt = null;
+        Connect();
+        try {
+            pstmt = conn.prepareStatement("DELETE FROM consulting WHERE id = ? AND status = 0");
+            pstmt.setInt(1, ID);
+            pstmt.executeQuery();
+        } catch (Exception e) {
+        } finally {
+            DisConnect();
+            pstmt.close();
+        }
+    }
+
 }

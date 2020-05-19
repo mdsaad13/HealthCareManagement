@@ -269,7 +269,7 @@ public class DbUtil extends Config {
             ps.setString(1, obj.getTitle());
             ps.setString(2, obj.getDescription());
             ps.setInt(3, obj.getVisibility());
-            ps.setInt(8, obj.getID());
+            ps.setInt(4, obj.getID());
 
             int rows = ps.executeUpdate();
 
@@ -347,6 +347,138 @@ public class DbUtil extends Config {
             DisConnect();
             pstmt.close();
         }
+    }
+
+    public ArrayList<Consulting> AllConsulting() throws SQLException {
+        ArrayList<Consulting> list = new ArrayList<Consulting>();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Connect();
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM consulting ORDER BY id DESC");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+                        rs.getString("datetime"), rs.getString("response"));
+                list.add(users);
+            }
+        } catch (Exception e) {
+        } finally {
+            DisConnect();
+            rs.close();
+            pstmt.close();
+        }
+        return list;
+    }
+
+    public ArrayList<Consulting> AllConsultingByUser(int UserID) throws SQLException {
+        ArrayList<Consulting> list = new ArrayList<Consulting>();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Connect();
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE user_id = ? ORDER BY id DESC");
+            pstmt.setInt(1, UserID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+                        rs.getString("datetime"), rs.getString("response"));
+                list.add(users);
+            }
+        } catch (Exception e) {
+        } finally {
+            DisConnect();
+            rs.close();
+            pstmt.close();
+        }
+        return list;
+    }
+
+    public ArrayList<Consulting> AllConsultingByDoctor(int DocID) throws SQLException {
+        ArrayList<Consulting> list = new ArrayList<Consulting>();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Connect();
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE doc_id = ? ORDER BY id DESC");
+            pstmt.setInt(1, DocID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+                        rs.getString("datetime"), rs.getString("response"));
+                list.add(users);
+            }
+        } catch (Exception e) {
+        } finally {
+            DisConnect();
+            rs.close();
+            pstmt.close();
+        }
+        return list;
+    }
+
+    public Consulting GetConsultingByID(int ID) throws SQLException {
+        Consulting consulting = new Consulting();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Connect();
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE id = ?");
+            pstmt.setInt(1, ID);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                consulting = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+                        rs.getString("datetime"), rs.getString("response"));
+            }
+        } catch (Exception e) {
+        } finally {
+            DisConnect();
+            rs.close();
+            pstmt.close();
+        }
+        return consulting;
+    }
+
+    /**
+     * Updating only status and response
+     * 
+     * @param obj
+     * @return
+     * @throws SQLException
+     */
+    public boolean UpdateConsulting(Consulting obj) throws SQLException {
+        boolean result = false;
+        Connect();
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE consulting SET status = ?, response = ? WHERE id = ?");
+            ps.setInt(1, obj.getStatus());
+            ps.setString(2, obj.getResponse());
+            ps.setInt(3, obj.getID());
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                result = true;
+            }
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DisConnect();
+        return result;
     }
 
 }
