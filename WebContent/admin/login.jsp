@@ -4,6 +4,8 @@ if(session.getAttribute("AdminID") != null){
 	response.sendRedirect("index.jsp");
 	return;
 }
+
+String Email = (String) request.getAttribute("Email");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +32,17 @@ if(session.getAttribute("AdminID") != null){
                                 Login</h3>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <%
+                            String msg = "";
+                            msg = (String) request.getAttribute("message");
+                            %> <%
+                                if(msg == "InvalidCreds") {
+                            %>
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Incorrect email or password!</strong>
+                            </div>
+                            <% } %>
+                            <form method="POST" action="AdminLogin">
                                 <div class="form-group">
                                     <label class="small mb-1" for="email">
                                         Email

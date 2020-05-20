@@ -1,6 +1,14 @@
+<%@page import="com.healthcare.modals.Admin"%>
+<%@page import="com.healthcare.dbutil.AccountUtil"%>
 <%@page import="com.healthcare.Environment"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+int ID = (Integer)session.getAttribute("AdminID");
+
+AccountUtil accountUtil = new AccountUtil();
+Admin adminDetails = accountUtil.GetAdminByID(ID);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +33,8 @@
         <ul class="navbar-nav ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i> Saad</a>
+                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i>
+                    <%= adminDetails.getName() %> </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" href="settings.jsp">Settings</a>
                     <div class="dropdown-divider"></div>
@@ -47,6 +56,30 @@
                         <a class="nav-link ${param.DepartmentsActive}" href="departments.jsp">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Departments
+                        </a>
+                        <a class="nav-link ${param.HealthtipsActive}" href="health-tips.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Health Tips
+                        </a>
+                        <a class="nav-link ${param.DoctorsActive}" href="doctors.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Doctors
+                        </a>
+                        <a class="nav-link ${param.UsersActive}" href="users.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Users
+                        </a>
+                        <a class="nav-link ${param.AppointmentsActive}" href="appointments.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Appointments
+                        </a>
+                        <a class="nav-link ${param.ConsultingActive}" href="consulting.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Consulting
+                        </a>
+                        <a class="nav-link ${param.ContactActive}" href="contact-us.jsp">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Contact Us
                         </a>
                     </div>
                 </div>

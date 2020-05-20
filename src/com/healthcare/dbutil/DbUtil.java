@@ -1,484 +1,515 @@
 package com.healthcare.dbutil;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.healthcare.Config;
-import com.healthcare.modals.*;
+import com.healthcare.modals.Appointment;
+import com.healthcare.modals.Consulting;
+import com.healthcare.modals.Department;
+import com.healthcare.modals.Enquiry;
+import com.healthcare.modals.HealthTip;
 
 public class DbUtil extends Config {
 
-    // Departments Op
-    public boolean InsertDept(Department obj) throws SQLException {
-        boolean result = false;
-        Connect();
-        try {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO departments (name) values (?)");
-            ps.setString(1, obj.getName());
+	// Departments Op
+	public boolean InsertDept(Department obj) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO departments (name) values (?)");
+			ps.setString(1, obj.getName());
 
-            int rows = ps.executeUpdate();
+			int rows = ps.executeUpdate();
 
-            if (rows > 0) {
-                result = true;
-            }
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        DisConnect();
-        return result;
-    }
+		DisConnect();
+		return result;
+	}
 
-    public boolean UpdateDept(Department obj) throws SQLException {
-        boolean result = false;
-        Connect();
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE departments SET name = ? WHERE dept_id = ?");
-            ps.setString(1, obj.getName());
-            ps.setInt(1, obj.getID());
+	public boolean UpdateDept(Department obj) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE departments SET name = ? WHERE dept_id = ?");
+			ps.setString(1, obj.getName());
+			ps.setInt(2, obj.getID());
 
-            int rows = ps.executeUpdate();
+			int rows = ps.executeUpdate();
 
-            if (rows > 0) {
-                result = true;
-            }
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        DisConnect();
-        return result;
-    }
+		DisConnect();
+		return result;
+	}
 
-    public Department GetDeptByID(int ID) throws SQLException {
-        Department obj = new Department();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public Department GetDeptByID(int ID) throws SQLException {
+		Department obj = new Department();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM departments WHERE dept_id = ? ");
-            pstmt.setInt(1, ID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                obj = new Department(rs.getInt("dept_id"), rs.getString("name"));
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return obj;
-    }
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM departments WHERE dept_id = ? ");
+			pstmt.setInt(1, ID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				obj = new Department(rs.getInt("dept_id"), rs.getString("name"));
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return obj;
+	}
 
-    public ArrayList<Department> AllDepartment(boolean SortByNameAsc) throws SQLException {
-        ArrayList<Department> list = new ArrayList<Department>();
+	public ArrayList<Department> AllDepartment(boolean SortByNameAsc) throws SQLException {
+		ArrayList<Department> list = new ArrayList<Department>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        Connect();
-        try {
-            String Query = null;
-            if (SortByNameAsc) {
-                Query = "SELECT * FROM departments ORDER BY name ASC";
-            } else {
-                Query = "SELECT * FROM departments ORDER BY dept_id DESC";
-            }
-            pstmt = conn.prepareStatement(Query);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Department obj = new Department(rs.getInt("dept_id"), rs.getString("name"));
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+		Connect();
+		try {
+			String Query = null;
+			if (SortByNameAsc) {
+				Query = "SELECT * FROM departments ORDER BY name ASC";
+			} else {
+				Query = "SELECT * FROM departments ORDER BY dept_id DESC";
+			}
+			pstmt = conn.prepareStatement(Query);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Department obj = new Department(rs.getInt("dept_id"), rs.getString("name"));
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-    // Enquiries or contact us Op
-    public ArrayList<Enquiry> AllEnquiries() throws SQLException {
-        ArrayList<Enquiry> list = new ArrayList<Enquiry>();
+	// Enquiries or contact us Op
+	public ArrayList<Enquiry> AllEnquiries() throws SQLException {
+		ArrayList<Enquiry> list = new ArrayList<Enquiry>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM contact_us ORDER BY id DESC");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Enquiry enquiries = new Enquiry(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
-                        rs.getString("subject"), rs.getString("message"), rs.getString("datetime"), rs.getInt("seen"));
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM contact_us ORDER BY id DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Enquiry enquiries = new Enquiry(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
+						rs.getString("subject"), rs.getString("message"), rs.getString("datetime"), rs.getInt("seen"));
 
-                list.add(enquiries);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+				list.add(enquiries);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-    public void UpdateEnquiriesToSeen() throws SQLException {
-        Connect();
-        try {
-            Statement smt = conn.createStatement();
-            String query = "UPDATE contact_us SET seen = 1";
-            smt.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        DisConnect();
-    }
+	public void UpdateEnquiriesToSeen() throws SQLException {
+		Connect();
+		try {
+			Statement smt = conn.createStatement();
+			String query = "UPDATE contact_us SET seen = 1";
+			smt.executeUpdate(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DisConnect();
+	}
 
-    // Appointments Op
-    public ArrayList<Appointment> AllAppointments() throws SQLException {
-        ArrayList<Appointment> list = new ArrayList<Appointment>();
+	// Appointments Op
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public boolean UpdateAppointmentStatus(int ID, int Status) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE appointments SET status = ? WHERE id = ?");
+			ps.setInt(1, Status);
+			ps.setInt(2, ID);
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM appointments ORDER BY id DESC");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
-                        rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
+			int rows = ps.executeUpdate();
 
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    public void UpdateAppointmentsToSeen() throws SQLException {
-        Connect();
-        try {
-            Statement smt = conn.createStatement();
-            String query = "UPDATE appointments SET seen = 1";
-            smt.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        DisConnect();
-    }
+		DisConnect();
+		return result;
+	}
 
-    public ArrayList<Appointment> AllAppointmentsByDoc(int DocID) throws SQLException {
-        ArrayList<Appointment> list = new ArrayList<Appointment>();
+	public ArrayList<Appointment> AllAppointments() throws SQLException {
+		ArrayList<Appointment> list = new ArrayList<Appointment>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM appointments WHERE doc_id = ? ORDER BY id DESC");
-            pstmt.setInt(1, DocID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
-                        rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM appointments ORDER BY id DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
+						rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
 
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-    public ArrayList<Appointment> AllAppointmentsByUser(int UserID) throws SQLException {
-        ArrayList<Appointment> list = new ArrayList<Appointment>();
+	public void UpdateAppointmentsToSeen() throws SQLException {
+		Connect();
+		try {
+			Statement smt = conn.createStatement();
+			String query = "UPDATE appointments SET seen = 1";
+			smt.executeUpdate(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DisConnect();
+	}
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public ArrayList<Appointment> AllAppointmentsByDoc(int DocID) throws SQLException {
+		ArrayList<Appointment> list = new ArrayList<Appointment>();
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM appointments WHERE user_id = ? ORDER BY id DESC");
-            pstmt.setInt(1, UserID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
-                        rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM appointments WHERE doc_id = ? ORDER BY id DESC");
+			pstmt.setInt(1, DocID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
+						rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
 
-    // Health tips OP
-    public boolean InsertTip(HealthTip obj) throws SQLException {
-        boolean result = false;
-        Connect();
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "INSERT INTO healthtips (title, description, datetime, visibility) values (?, ?, ?, ?)");
-            ps.setString(1, obj.getTitle());
-            ps.setString(2, obj.getDescription());
-            ps.setString(3, obj.getDateTime());
-            ps.setInt(4, obj.getVisibility());
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-            int rows = ps.executeUpdate();
+	public ArrayList<Appointment> AllAppointmentsByUser(int UserID) throws SQLException {
+		ArrayList<Appointment> list = new ArrayList<Appointment>();
 
-            if (rows > 0) {
-                result = true;
-            }
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        DisConnect();
-        return result;
-    }
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM appointments WHERE user_id = ? ORDER BY id DESC");
+			pstmt.setInt(1, UserID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Appointment obj = new Appointment(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getInt("age"),
+						rs.getString("date"), rs.getString("time"), rs.getInt("seen"), rs.getInt("status"));
 
-    public boolean UpdateTip(HealthTip obj) throws SQLException {
-        boolean result = false;
-        Connect();
-        try {
-            PreparedStatement ps = conn
-                    .prepareStatement("UPDATE healthtips SET title = ?, description = ?, visibility = ? WHERE id = ?");
-            ps.setString(1, obj.getTitle());
-            ps.setString(2, obj.getDescription());
-            ps.setInt(3, obj.getVisibility());
-            ps.setInt(4, obj.getID());
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-            int rows = ps.executeUpdate();
+	// Health tips OP
+	public boolean InsertTip(HealthTip obj) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn.prepareStatement(
+					"INSERT INTO healthtips (title, description, datetime, visibility) values (?, ?, ?, ?)");
+			ps.setString(1, obj.getTitle());
+			ps.setString(2, obj.getDescription());
+			ps.setString(3, obj.getDateTime());
+			ps.setInt(4, obj.getVisibility());
 
-            if (rows > 0) {
-                result = true;
-            }
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			int rows = ps.executeUpdate();
 
-        DisConnect();
-        return result;
-    }
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    public ArrayList<HealthTip> AllTips() throws SQLException {
-        ArrayList<HealthTip> list = new ArrayList<HealthTip>();
+		DisConnect();
+		return result;
+	}
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public boolean UpdateTip(HealthTip obj) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("UPDATE healthtips SET title = ?, description = ?, visibility = ? WHERE id = ?");
+			ps.setString(1, obj.getTitle());
+			ps.setString(2, obj.getDescription());
+			ps.setInt(3, obj.getVisibility());
+			ps.setInt(4, obj.getID());
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM healthtips ORDER BY id DESC");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                HealthTip obj = new HealthTip(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-                        rs.getString("datetime"), rs.getInt("visibility"));
+			int rows = ps.executeUpdate();
 
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    public ArrayList<HealthTip> OnlyHomeScreenTips() throws SQLException {
-        ArrayList<HealthTip> list = new ArrayList<HealthTip>();
+		DisConnect();
+		return result;
+	}
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public ArrayList<HealthTip> AllTips() throws SQLException {
+		ArrayList<HealthTip> list = new ArrayList<HealthTip>();
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM healthtips WHERE visibility = 1 ORDER BY id DESC");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                HealthTip obj = new HealthTip(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
-                        rs.getString("datetime"), rs.getInt("visibility"));
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-                list.add(obj);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM healthtips ORDER BY id DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				HealthTip obj = new HealthTip(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
+						rs.getString("datetime"), rs.getInt("visibility"));
 
-    public void DeleteTip(int ID) throws SQLException {
-        PreparedStatement pstmt = null;
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("DELETE FROM healthtips WHERE id = ?");
-            pstmt.setInt(1, ID);
-            pstmt.executeQuery();
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            pstmt.close();
-        }
-    }
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-    public ArrayList<Consulting> AllConsulting() throws SQLException {
-        ArrayList<Consulting> list = new ArrayList<Consulting>();
+	public ArrayList<HealthTip> OnlyHomeScreenTips() throws SQLException {
+		ArrayList<HealthTip> list = new ArrayList<HealthTip>();
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM consulting ORDER BY id DESC");
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
-                        rs.getString("datetime"), rs.getString("response"));
-                list.add(users);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM healthtips WHERE visibility = 1 ORDER BY id DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				HealthTip obj = new HealthTip(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
+						rs.getString("datetime"), rs.getInt("visibility"));
 
-    public ArrayList<Consulting> AllConsultingByUser(int UserID) throws SQLException {
-        ArrayList<Consulting> list = new ArrayList<Consulting>();
+				list.add(obj);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+	public void DeleteTip(int ID) throws SQLException {
+		PreparedStatement pstmt = null;
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("DELETE FROM healthtips WHERE id = ?");
+			pstmt.setInt(1, ID);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnect();
+			pstmt.close();
+		}
+	}
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE user_id = ? ORDER BY id DESC");
-            pstmt.setInt(1, UserID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
-                        rs.getString("datetime"), rs.getString("response"));
-                list.add(users);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+	public ArrayList<Consulting> AllConsulting() throws SQLException {
+		ArrayList<Consulting> list = new ArrayList<Consulting>();
 
-    public ArrayList<Consulting> AllConsultingByDoctor(int DocID) throws SQLException {
-        ArrayList<Consulting> list = new ArrayList<Consulting>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM consulting ORDER BY id DESC");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+						rs.getString("datetime"), rs.getString("response"));
+				list.add(users);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE doc_id = ? ORDER BY id DESC");
-            pstmt.setInt(1, DocID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
-                        rs.getString("datetime"), rs.getString("response"));
-                list.add(users);
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return list;
-    }
+	public ArrayList<Consulting> AllConsultingByUser(int UserID) throws SQLException {
+		ArrayList<Consulting> list = new ArrayList<Consulting>();
 
-    public Consulting GetConsultingByID(int ID) throws SQLException {
-        Consulting consulting = new Consulting();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE user_id = ? ORDER BY id DESC");
+			pstmt.setInt(1, UserID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+						rs.getString("datetime"), rs.getString("response"));
+				list.add(users);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-        Connect();
-        try {
-            pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE id = ?");
-            pstmt.setInt(1, ID);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                consulting = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
-                        rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
-                        rs.getString("datetime"), rs.getString("response"));
-            }
-        } catch (Exception e) {
-        } finally {
-            DisConnect();
-            rs.close();
-            pstmt.close();
-        }
-        return consulting;
-    }
+	public ArrayList<Consulting> AllConsultingByDoctor(int DocID) throws SQLException {
+		ArrayList<Consulting> list = new ArrayList<Consulting>();
 
-    /**
-     * Updating only status and response
-     * 
-     * @param obj
-     * @return
-     * @throws SQLException
-     */
-    public boolean UpdateConsulting(Consulting obj) throws SQLException {
-        boolean result = false;
-        Connect();
-        try {
-            PreparedStatement ps = conn.prepareStatement("UPDATE consulting SET status = ?, response = ? WHERE id = ?");
-            ps.setInt(1, obj.getStatus());
-            ps.setString(2, obj.getResponse());
-            ps.setInt(3, obj.getID());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
-            int rows = ps.executeUpdate();
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE doc_id = ? ORDER BY id DESC");
+			pstmt.setInt(1, DocID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Consulting users = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+						rs.getString("datetime"), rs.getString("response"));
+				list.add(users);
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return list;
+	}
 
-            if (rows > 0) {
-                result = true;
-            }
-            ps.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public Consulting GetConsultingByID(int ID) throws SQLException {
+		Consulting consulting = new Consulting();
 
-        DisConnect();
-        return result;
-    }
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		Connect();
+		try {
+			pstmt = conn.prepareStatement("SELECT * FROM consulting WHERE id = ?");
+			pstmt.setInt(1, ID);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				consulting = new Consulting(rs.getInt("id"), rs.getInt("doc_id"), rs.getInt("user_id"),
+						rs.getString("subject"), rs.getString("description"), rs.getInt("seen"), rs.getInt("status"),
+						rs.getString("datetime"), rs.getString("response"));
+			}
+		} catch (Exception e) {
+		} finally {
+			DisConnect();
+			rs.close();
+			pstmt.close();
+		}
+		return consulting;
+	}
+
+	/**
+	 * Updating only status and response
+	 * 
+	 * @param obj
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean UpdateConsulting(Consulting obj) throws SQLException {
+		boolean result = false;
+		Connect();
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE consulting SET status = ?, response = ? WHERE id = ?");
+			ps.setInt(1, obj.getStatus());
+			ps.setString(2, obj.getResponse());
+			ps.setInt(3, obj.getID());
+
+			int rows = ps.executeUpdate();
+
+			if (rows > 0) {
+				result = true;
+			}
+			ps.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		DisConnect();
+		return result;
+	}
 
 }

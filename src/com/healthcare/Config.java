@@ -22,7 +22,8 @@ public class Config {
 	public void Connect() throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/" + Database, UserName, Password);
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/" + Database + "?autoReconnect=true&useSSL=false", UserName, Password);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
