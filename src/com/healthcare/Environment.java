@@ -7,13 +7,13 @@ public class Environment {
 
 	public static String _SoftwareShortName = "HMS";
 
-	public static String _OwnerName = "Saad";
+	public static String _OwnerName = "Exalter";
 
-	public static String _OwnerMobile = "+91 8884291607";
+	public static String _OwnerMobile = "+91 9999999999";
 
-	public static String _OwnerEmail = "saad.surana@gmail.com";
+	public static String _OwnerEmail = "hms@mail.com";
 
-	public static String _OwnerAddress = "Surana College<br>Bangalore 560001";
+	public static String _OwnerAddress = "Bangalore 560001<br>Karnataka";
 
 	public static String _FBURL = "https://facebook.com";
 

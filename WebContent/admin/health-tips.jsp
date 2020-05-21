@@ -34,16 +34,17 @@ ArrayList<HealthTip> list = db.AllTips();
                 <form method="POST" action="HealthTipsServlet">
                     <div class="form-group">
                         <label for="Title">Title</label>
-                        <input type="text" class="form-control" id="Title" name="Title" placeholder="Enter Title">
+                        <input type="text" class="form-control" id="Title" name="Title" placeholder="Enter Title"
+                            data-validation="required">
                     </div>
                     <div class="form-group">
                         <label for="Title">Description</label>
                         <textarea name="Description" id="Description" rows="5" placeholder="Enter Description"
-                            class="form-control"></textarea>
+                            class="form-control" data-validation="required"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="Visibility">Visibility</label>
-                        <select class="form-control" id="Visibility" name="Visibility">
+                        <select class="form-control" id="Visibility" name="Visibility" data-validation="required">
                             <option value="0">Hide on Home Page</option>
                             <option value="1">Show on Home Page</option>
                         </select>
@@ -73,17 +74,18 @@ ArrayList<HealthTip> list = db.AllTips();
                 <form method="POST" action="HealthTipsServlet">
                     <div class="form-group">
                         <label for="update-Title">Title</label>
-                        <input type="text" class="form-control" id="update-Title" name="Title"
-                            placeholder="Enter Title">
+                        <input type="text" class="form-control" id="update-Title" name="Title" placeholder="Enter Title"
+                            data-validation="required">
                     </div>
                     <div class="form-group">
                         <label for="update-Description">Description</label>
                         <textarea name="Description" id="update-Description" rows="5" placeholder="Enter Description"
-                            class="form-control"></textarea>
+                            class="form-control" data-validation="required"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="update-Visibility">Visibility</label>
-                        <select class="form-control" id="update-Visibility" name="Visibility">
+                        <select class="form-control" id="update-Visibility" name="Visibility"
+                            data-validation="required">
                             <option value="0">Hide on Home Page</option>
                             <option value="1">Show on Home Page</option>
                         </select>

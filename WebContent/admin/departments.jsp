@@ -32,7 +32,8 @@ ArrayList<Department> list = db.AllDepartment(false);
         <form method="POST" action="DepartmentServlet">
           <div class="form-group">
             <label for="name">Department Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name"
+              data-validation="required">
           </div>
           <input type="hidden" name="action" value="add">
           <div class="form-group mt-5 text-center">
@@ -59,7 +60,8 @@ ArrayList<Department> list = db.AllDepartment(false);
         <form method="POST" action="DepartmentServlet">
           <div class="form-group">
             <label for="name">Department Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter department name"
+              data-validation="required">
           </div>
           <input type="hidden" name="action" value="update">
           <input type="hidden" name="id" id="id">

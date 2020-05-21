@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.healthcare.dbutil.AccountUtil;
-import com.healthcare.dbutil.DbUtil;
-import com.healthcare.modals.Department;
 import com.healthcare.modals.User;
 
 @WebServlet("/admin/UsersServlet")

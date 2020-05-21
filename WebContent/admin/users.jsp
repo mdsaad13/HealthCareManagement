@@ -33,34 +33,37 @@ ArrayList<User> list = db.AllUsers();
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter User name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter User name"
+                                data-validation="required">
                         </div>
                         <div class="col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Enter User email">
+                                placeholder="Enter User email" data-validation="email">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Enter User password">
+                            placeholder="Enter User password" data-validation="strength" data-validation-strength="2">
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" id="phone" name="phone"
-                                placeholder="Enter User phone">
+                                placeholder="Enter User phone" data-validation-regexp="^([6-9]{1})(\d{9})$"
+                                data-validation="custom">
                         </div>
                         <div class="col-md-6">
                             <label for="age">Age</label>
-                            <input type="number" class="form-control" id="age" name="age" placeholder="Enter User age">
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Enter User age"
+                                data-validation="number" data-validation-allowing="range[1;100]">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Address</label>
                         <textarea class="form-control" id="address" name="address" placeholder="Enter User address"
-                            rows="5"></textarea>
+                            rows="5" data-validation="required"></textarea>
                     </div>
                     <input type="hidden" name="action" value="add">
                     <div class="form-group mt-5 text-center">
@@ -89,30 +92,32 @@ ArrayList<User> list = db.AllUsers();
                         <div class="col-md-6">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="update-name" name="name"
-                                placeholder="Enter User name">
+                                placeholder="Enter User name" data-validation="required">
                         </div>
                         <div class="col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="update-email" name="email"
-                                placeholder="Enter User email">
+                                placeholder="Enter User email" data-validation="email">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" id="update-phone" name="phone"
-                                placeholder="Enter User phone">
+                                placeholder="Enter User phone" data-validation-regexp="^([6-9]{1})(\d{9})$"
+                                data-validation="custom">
                         </div>
                         <div class="col-md-6">
                             <label for="age">Age</label>
                             <input type="number" class="form-control" id="update-age" name="age"
-                                placeholder="Enter User age">
+                                placeholder="Enter User age" data-validation="number"
+                                data-validation-allowing="range[1;100]">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Address</label>
                         <textarea class="form-control" id="update-address" name="address"
-                            placeholder="Enter User address" rows="5"></textarea>
+                            placeholder="Enter User address" rows="5" data-validation="required"></textarea>
                     </div>
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="id" id="id">

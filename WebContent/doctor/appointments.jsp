@@ -1,10 +1,9 @@
 <%@page import="com.healthcare.modals.Appointment"%>
-<%@page import="com.healthcare.dbutil.AccountUtil"%>
 <%@page import="com.healthcare.Formatter"%>
 <%@page import="com.healthcare.dbutil.DbUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%
-if(session.getAttribute("AdminID") == null){
+if(session.getAttribute("DoctorID") == null){
 	response.sendRedirect("login.jsp");
 	return;
 }
@@ -12,9 +11,7 @@ if(session.getAttribute("AdminID") == null){
 String Title = "Appointments";
 
 DbUtil db = new DbUtil();
-ArrayList<Appointment> list = db.AllAppointments();
-
-    AccountUtil accountUtil = new AccountUtil();
+ArrayList<Appointment> list = db.AllAppointmentsByDoc((int) session.getAttribute("DoctorID"));
 %>
 <jsp:include page="header.jsp">
     <jsp:param name="Title" value="<%= Title %>" />
@@ -66,7 +63,6 @@ ArrayList<Appointment> list = db.AllAppointments();
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>For Doc</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -85,9 +81,6 @@ ArrayList<Appointment> list = db.AllAppointments();
                     <tr>
                         <td>
                             <%= i %>
-                        </td>
-                        <td>
-                            <%= accountUtil.GetDoctorByID(item.getDocID()).getName() %>
                         </td>
                         <td>
                             <%= item.getName() %>
@@ -146,7 +139,6 @@ ArrayList<Appointment> list = db.AllAppointments();
                 <tfoot>
                     <tr>
                         <th>#</th>
-                        <th>For Doc</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -173,7 +165,7 @@ ArrayList<Appointment> list = db.AllAppointments();
 
     function UpdateStatus(id, status) {
         if (confirm('Are you sure you want to update status')) {
-            window.location.replace('ApointmentStatusServlet?id=' + id + '&status=' + status + '&redirect=admin');
+            window.location.replace('../admin/ApointmentStatusServlet?id=' + id + '&status=' + status + '&redirect=doctor');
         }
     }
 </script>

@@ -45,40 +45,41 @@ ArrayList<Department> AllDepartments = dbUtil.AllDepartment(true);
                         <div class="col-md-6">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter Doctor name">
+                                placeholder="Enter Doctor name" data-validation="required">
                         </div>
                         <div class="col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Enter Doctor email">
+                                placeholder="Enter Doctor email" data-validation="email">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Enter Doctor password">
+                            placeholder="Enter Doctor password" data-validation="strength" data-validation-strength="2">
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" id="phone" name="phone"
-                                placeholder="Enter Doctor phone">
+                                placeholder="Enter Doctor phone" data-validation-regexp="^([6-9]{1})(\d{9})$"
+                                data-validation="custom">
                         </div>
                         <div class="col-md-6">
                             <label for="age">Age</label>
-                            <input type="number" class="form-control" id="age" name="age"
-                                placeholder="Enter Doctor age">
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Enter Doctor age"
+                                data-validation="number" data-validation-allowing="range[1;100]">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Address</label>
                         <textarea class="form-control" id="address" name="address" placeholder="Enter Doctor address"
-                            rows="5"></textarea>
+                            rows="5" data-validation="required"></textarea>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="name">Department</label>
-                            <select class="custom-select" name="deptid">
+                            <select class="custom-select" name="deptid" data-validation="required">
                                 <option value="">Select Department</option>
                                 <% for(Department Depts : AllDepartments){ %>
                                 <option value="<%=Depts.getID()%>"><%=Depts.getName()%></option>
@@ -88,7 +89,7 @@ ArrayList<Department> AllDepartments = dbUtil.AllDepartment(true);
                         <div class="col-md-6">
                             <label for="qualification">Qualification</label>
                             <input type="text" class="form-control" id="qualification" name="qualification"
-                                placeholder="Enter Doctor qualification">
+                                placeholder="Enter Doctor qualification" data-validation="required">
                         </div>
                     </div>
                     <div class="custom-file">
@@ -122,35 +123,37 @@ ArrayList<Department> AllDepartments = dbUtil.AllDepartment(true);
                         <div class="col-md-6">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="update-name" name="name"
-                                placeholder="Enter Doctor name">
+                                placeholder="Enter Doctor name" data-validation="required">
                         </div>
                         <div class="col-md-6">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="update-email" name="email"
-                                placeholder="Enter Doctor email">
+                                placeholder="Enter Doctor email" data-validation="email">
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" id="update-phone" name="phone"
-                                placeholder="Enter Doctor phone">
+                                placeholder="Enter Doctor phone" data-validation-regexp="^([6-9]{1})(\d{9})$"
+                                data-validation="custom">
                         </div>
                         <div class="col-md-6">
                             <label for="age">Age</label>
                             <input type="number" class="form-control" id="update-age" name="age"
-                                placeholder="Enter Doctor age">
+                                placeholder="Enter Doctor age" data-validation="number"
+                                data-validation-allowing="range[1;100]">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Address</label>
                         <textarea class="form-control" id="update-address" name="address"
-                            placeholder="Enter Doctor address" rows="5"></textarea>
+                            placeholder="Enter Doctor address" rows="5" data-validation="required"></textarea>
                     </div>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="name">Department</label>
-                            <select class="custom-select" name="deptid" id="update-deptid">
+                            <select class="custom-select" name="deptid" id="update-deptid" data-validation="required">
                                 <option value="">Select Department</option>
                                 <% for(Department Depts1 : AllDepartments){ %>
                                 <option value="<%=Depts1.getID()%>"><%=Depts1.getName()%></option>
@@ -160,7 +163,7 @@ ArrayList<Department> AllDepartments = dbUtil.AllDepartment(true);
                         <div class="col-md-6">
                             <label for="update-qualification">Qualification</label>
                             <input type="text" class="form-control" id="update-qualification" name="qualification"
-                                placeholder="Enter Doctor qualification">
+                                placeholder="Enter Doctor qualification" data-validation="required">
                         </div>
                     </div>
                     <div class="custom-file">

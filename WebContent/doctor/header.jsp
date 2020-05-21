@@ -1,13 +1,13 @@
-<%@page import="com.healthcare.modals.Admin"%>
+<%@page import="com.healthcare.modals.Doctor"%>
 <%@page import="com.healthcare.dbutil.AccountUtil"%>
 <%@page import="com.healthcare.Environment"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%
-int ID = (Integer)session.getAttribute("AdminID");
+int ID = (Integer)session.getAttribute("DoctorID");
 
 AccountUtil accountUtil = new AccountUtil();
-Admin adminDetails = accountUtil.GetAdminByID(ID);
+Doctor adminDetails = accountUtil.GetDoctorByID(ID);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +15,7 @@ Admin adminDetails = accountUtil.GetAdminByID(ID);
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>${param.Title} - <%= Environment._SoftwareName %> Admin</title>
+    <title>${param.Title} - <%= Environment._SoftwareName %> Doctor</title>
     <link href="../dashboard_assets/css/styles.css" rel="stylesheet" />
     <link href="../dashboard_assets/plugins/DataTables/datatables.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous">
@@ -55,22 +55,6 @@ Admin adminDetails = accountUtil.GetAdminByID(ID);
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link ${param.DepartmentsActive}" href="departments.jsp">
-                            <div class="sb-nav-link-icon"><i class="fas fa-clinic-medical"></i></div>
-                            Departments
-                        </a>
-                        <a class="nav-link ${param.HealthtipsActive}" href="health-tips.jsp">
-                            <div class="sb-nav-link-icon"><i class="fas fa-trophy"></i></div>
-                            Health Tips
-                        </a>
-                        <a class="nav-link ${param.DoctorsActive}" href="doctors.jsp">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-md"></i></div>
-                            Doctors
-                        </a>
-                        <a class="nav-link ${param.UsersActive}" href="users.jsp">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Users
-                        </a>
                         <a class="nav-link ${param.AppointmentsActive}" href="appointments.jsp">
                             <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
                             Appointments
@@ -78,10 +62,6 @@ Admin adminDetails = accountUtil.GetAdminByID(ID);
                         <a class="nav-link ${param.ConsultingActive}" href="consulting.jsp">
                             <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
                             Consulting
-                        </a>
-                        <a class="nav-link ${param.ContactActive}" href="contact-us.jsp">
-                            <div class="sb-nav-link-icon"><i class="fas fa-phone-alt"></i></div>
-                            Contact Us
                         </a>
                     </div>
                 </div>

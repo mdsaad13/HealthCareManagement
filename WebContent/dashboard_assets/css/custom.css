@@ -1,5 +1,5 @@
-.bg-dark{
-	background-image: -moz-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+.bg-dark {
+    background-image: -moz-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
     background-image: -webkit-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%) !important;
     background-image: -ms-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
 }
@@ -12,8 +12,8 @@
     color: rgb(255, 255, 255);
 }
 
-#layoutAuthentication{
-	min-height: 100vh;
+#layoutAuthentication {
+    min-height: 100vh;
     justify-content: center;
     display: flex;
 }
@@ -25,4 +25,62 @@
 .btn-primary {
     border-color: unset;
     background-image: -webkit-linear-gradient(0deg, #24c0f1 0%, #4c9afe 100%);
+}
+
+.bg-success {
+    border: unset;
+    color: #000000 !important;
+    background: #56ab2f;
+    background: -webkit-linear-gradient(to right, #a8e063, #56ab2f) !important;
+    background: linear-gradient(to right, #a8e063, #56ab2f) !important;
+}
+
+.bg-warning {
+    border: unset;
+    color: #1f2d3d !important;
+    background: #FF4E50;
+    background: -webkit-linear-gradient(to right, #F9D423, #FF4E50);
+    background: linear-gradient(to right, #F9D423, #FF4E50);
+}
+
+.stretched-link {
+    color: #000000;
+}
+
+.bg-danger {
+    border: unset;
+    color: white;
+    background: #ED213A;
+    background: -webkit-linear-gradient(to right, #93291E, #ED213A);
+    background: linear-gradient(to right, #93291E, #ED213A);
+}
+
+.bg-info {
+    border: unset;
+    color: #000000;
+    background: #2193b0;
+    background: -webkit-linear-gradient(to right, #6dd5ed, #2193b0);
+    background: linear-gradient(to right, #6dd5ed, #2193b0);
+}
+
+.bg-purple {
+    border: unset;
+    color: whitesmoke !important;
+    background: #9D50BB;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6E48AA, #9D50BB);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.bg-black {
+    border: unset;
+    color: whitesmoke !important;
+    background: #000000;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #434343, #000000);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #434343, #000000);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
